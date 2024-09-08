@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusElement = document.getElementById('status');
     const tgiUrlElement = document.getElementById('tgi-url');
     const apiUrlElement = document.getElementById('api-url');
+    const modelIdElement = document.getElementById('model-id');
+    const dockerImageElement = document.getElementById('docker-image');
+    const numGpusElement = document.getElementById('num-gpus');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -47,11 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
             statusElement.style.color = data.status === 'OK' ? 'green' : 'red';
             tgiUrlElement.textContent = data.tgi_url;
             apiUrlElement.textContent = data.api_url;
+            modelIdElement.textContent = data.model_id;
+            dockerImageElement.textContent = data.docker_image;
+            numGpusElement.textContent = data.num_gpus;
         } catch (error) {
             statusElement.textContent = 'Error fetching status';
             statusElement.style.color = 'red';
             tgiUrlElement.textContent = 'N/A';
             apiUrlElement.textContent = 'N/A';
+            modelIdElement.textContent = 'N/A';
+            dockerImageElement.textContent = 'N/A';
+            numGpusElement.textContent = 'N/A';
         }
     }
 

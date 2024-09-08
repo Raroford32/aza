@@ -1,0 +1,31 @@
+ubuntu@130-61-18-101:~$ git clone https://github.com/Raroford32/HuggingFace-CodeGen-Interfacea.git
+Cloning into 'HuggingFace-CodeGen-Interfacea'...
+remote: Enumerating objects: 19, done.
+remote: Counting objects: 100% (19/19), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 19 (delta 1), reused 19 (delta 1), pack-reused 0 (from 0)
+Receiving objects: 100% (19/19), 40.58 KiB | 20.29 MiB/s, done.
+Resolving deltas: 100% (1/1), done.
+ubuntu@130-61-18-101:~$ cd /home/ubuntu/HuggingFace-CodeGen-Interfacea
+ubuntu@130-61-18-101:~/HuggingFace-CodeGen-Interfacea$ pythonm ^C
+ubuntu@130-61-18-101:~/HuggingFace-CodeGen-Interfacea$ python main.py
+The cache for model files in Transformers v4.22.0 has been updated. Migrating your old cache. This is a one-time only operation. You can interrupt this and resume the migration later on by calling `transformers.utils.move_cache()`.
+0it [00:00, ?it/s]
+/usr/lib/python3/dist-packages/scipy/__init__.py:146: UserWarning: A NumPy version >=1.17.3 and <1.25.0 is required for this version of SciPy (detected version 1.25.2
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+tokenizer_config.json: 100%|██████████████████████████████████████| 26.0/26.0 [00:00<00:00, 331kB/s]
+config.json: 100%|█████████████████████████████████████████████████| 762/762 [00:00<00:00, 13.2MB/s]
+vocab.json: 100%|██████████████████████████████████████████████| 1.04M/1.04M [00:00<00:00, 45.7MB/s]
+merges.txt: 100%|████████████████████████████████████████████████| 456k/456k [00:00<00:00, 58.9MB/s]
+tokenizer.json: 100%|██████████████████████████████████████████| 1.36M/1.36M [00:00<00:00, 48.0MB/s]
+/home/ubuntu/.local/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:1601: FutureWarning: `clean_up_tokenization_spaces` was not set. It will be set to `True` by default. This behavior will be depracted in transformers v4.45, and will be then set to `False` by default. For more details check this issue: https://github.com/huggingface/transformers/issues/31884
+  warnings.warn(
+model.safetensors: 100%|██████████████████████████████████████████| 353M/353M [00:01<00:00, 345MB/s]
+generation_config.json: 100%|██████████████████████████████████████| 124/124 [00:00<00:00, 1.64MB/s]
+Hardware accelerator e.g. GPU is available in the environment, but no `device` argument is passed to the `Pipeline` object. Model will be on CPU.
+ * Serving Flask app 'main'
+ * Debug mode: off
+
+
+
+first of all i told you tgi that should use docker that should use ghcr.io/huggingface/text-generation-inference:2.2.0 you motherfucker generating methid for yourself?! secont . endpoint and api that i told add to ui show . mean my tgi servers endpoint and api not huggingface. and also its most important to push it use all gpus .

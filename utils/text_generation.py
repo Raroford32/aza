@@ -1,48 +1,55 @@
-from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
 import requests
+import os
 
-# Initialize the model and tokenizer
-model_name = "distilgpt2"  # A smaller, manageable model
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
-
-# Create a text generation pipeline
-generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+TGI_SERVER_URL = os.environ.get("TGI_SERVER_URL", "http://130.61.18.101:8080")
+API_URL = f"{TGI_SERVER_URL}/generate"
 
 def generate_text(prompt, temperature=0.7, max_length=100, top_k=50):
     try:
-        # Generate text
-        generated = generator(
-            prompt,
-            max_length=max_length,
-            num_return_sequences=1,
-            temperature=temperature,
-            top_k=top_k,
-            do_sample=True
-        )
-
-        # Extract the generated text
-        generated_text = generated[0]['generated_text']
-
-        # Truncate to max_length if necessary
-        if len(generated_text) > max_length:
-            generated_text = generated_text[:max_length]
-
-        return generated_text
-    except Exception as e:
+        payload = {
+            "inputs": prompt,
+            "parameters": {
+                "max_new_tokens": max_length,
+                "temperature": temperature,
+                "top_k": top_k,
+                "do_sample": True,
+                "best_of": 1,
+                "use_cache": False,
+                "return_full_text": False,
+                "truncate": None,
+                "typical_p": 0.95,
+                "watermark": False,
+                "seed": None
+            }
+        }
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(API_URL, json=payload, headers=headers, timeout=30)
+        response.raise_for_status()
+        return response.json()[0]["generated_text"]
+    except requests.exceptions.RequestException as e:
         print(f"Error in text generation: {str(e)}")
         raise
 
 def get_tgi_status():
     try:
-        tgi_url = "https://api-inference.huggingface.co"
-        api_url = "https://api-inference.huggingface.co/models/mlabonne/Hermes-3-Llama-3.1-70B-lorablated"
-        
-        response = requests.get(f"{tgi_url}/status")
-        if response.status_code == 200:
-            return {"status": "OK", "tgi_url": tgi_url, "api_url": api_url}
-        else:
-            return {"status": "Error", "tgi_url": tgi_url, "api_url": api_url}
-    except Exception as e:
+        health_response = requests.get(f"{TGI_SERVER_URL}/health", timeout=10)
+        health_response.raise_for_status()
+        info_response = requests.get(f"{TGI_SERVER_URL}/info", timeout=10)
+        info_response.raise_for_status()
+        info = info_response.json()
+        return {
+            "status": "OK",
+            "tgi_url": TGI_SERVER_URL,
+            "api_url": API_URL,
+            "model_id": info.get("model_id", "Not available"),
+            "docker_image": info.get("docker_image", "Not available"),
+            "num_gpus": info.get("num_gpus", "Not available")
+        }
+    except requests.exceptions.RequestException as e:
         print(f"Error checking TGI status: {str(e)}")
-        return {"status": "Error", "tgi_url": "N/A", "api_url": "N/A"}
+        return {
+            "status": "Error",
+            "tgi_url": TGI_SERVER_URL,
+            "api_url": API_URL,
+            "error_message": str(e)
+        }
