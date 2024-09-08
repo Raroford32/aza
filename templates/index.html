@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Text Generation Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Text Generation Interface</h1>
+        <div id="tgi-status">
+            TGI Status: <span id="status">Checking...</span><br>
+            TGI URL: <span id="tgi-url">Loading...</span><br>
+            API URL: <span id="api-url">Loading...</span>
+        </div>
+        <form id="generation-form">
+            <label for="prompt">Enter your prompt:</label>
+            <textarea id="prompt" name="prompt" rows="4" maxlength="500" required></textarea>
+            <div class="options">
+                <label for="temperature">Temperature:</label>
+                <input type="number" id="temperature" name="temperature" min="0" max="1" step="0.1" value="0.7">
+                
+                <label for="max-length">Max Length:</label>
+                <input type="number" id="max-length" name="max-length" min="1" max="1000" value="100">
+                
+                <label for="top-k">Top-k:</label>
+                <input type="number" id="top-k" name="top-k" min="1" max="100" value="50">
+            </div>
+            <button type="submit">Generate Text</button>
+        </form>
+        <div id="output">
+            <h2>Generated Text:</h2>
+            <p id="generated-text"></p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
